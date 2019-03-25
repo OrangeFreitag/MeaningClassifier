@@ -103,6 +103,14 @@ train_y = clearY(np.loadtxt('/data/shared-task/vec_train_y.csv', delimiter=',',u
 dev_test_x = np.loadtxt('/data/shared-task/vec_test_x.csv', delimiter=',',usecols=range(11)[1:])
 dev_test_y = np.loadtxt('/data/shared-task/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
+
+# Polyaxon
+experiment.log_data_ref(data=train_x, data_name='train_x')
+experiment.log_data_ref(data=train_y, data_name='train_y')
+experiment.log_data_ref(data=dev_test_x, data_name='dev_test_x')
+experiment.log_data_ref(data=dev_test_y, data_name='dev_test_y')
+
+
 seed = 7
 np.random.seed(seed)
 
@@ -127,5 +135,6 @@ classifier.compile(loss='binary_crossentropy',
 
 metrics = classifier.fit(scaled_train_x, train_y, batch_size = 150, epochs = 600, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
 dev_y_pred = classifier.predict_classes(scaled_dev_test_x)
+
 
 experiment.log_metrics(d_full=evaluate(dev_test_y, dev_y_pred))
