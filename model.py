@@ -9,6 +9,7 @@ import math
 from keras.utils.vis_utils import plot_model
 import uuid
 from polyaxon_client.tracking import Experiment, get_log_level, get_data_paths, get_outputs_path
+from polyaxon_client.tracking.contrib.keras import PolyaxonKeras
 
 def clearY(y):
     clean_input = np.array([]).reshape(0, 1)
@@ -124,10 +125,7 @@ classifier.compile(loss='binary_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
-metrics = classifier.fit(scaled_train_x, train_y, batch_size = 150, epochs = 600, validation_split=0.1)
+metrics = classifier.fit(scaled_train_x, train_y, batch_size = 150, epochs = 600, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
 dev_y_pred = classifier.predict_classes(scaled_dev_test_x)
 
-experiment.log_metrics(loss=metrics.history['loss'],
-                       val_loss=metrics.history['val_loss'],
-                       accuracy=metrics.history['acc'],
-                       val_accuracy=metrics.history['val_acc'])
+experiment.log_metrics(d_full=evaluate(dev_test_y, dev_y_pred))
