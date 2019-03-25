@@ -30,7 +30,7 @@ dev_test_x = np.loadtxt('/data/shared-task/OLD-DNN/vec_test_x.csv', delimiter=',
 dev_test_y = np.loadtxt('/data/shared-task/OLD-DNN/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
 st2_test_x = np.loadtxt('/data/shared-task/OLD-DNN//vec_st2_test_x.csv', delimiter=',',usecols=range(11)[1:])
-st2_test_y = np.loadtxt(d'/data/shared-task/OLD-DNN/vec_st2_test_y.csv', delimiter=',',usecols=range(4)[1:])
+st2_test_y = np.loadtxt('/data/shared-task/OLD-DNN/vec_st2_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
 seed = 7
 np.random.seed(seed)
