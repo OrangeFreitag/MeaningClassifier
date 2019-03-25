@@ -1,0 +1,11 @@
+version: 1
+
+kind: experiment
+
+build:
+  image: tensorflow/tensorflow:1.4.1-py3
+  build_steps:
+    - pip3 install polyaxon-client
+
+run:
+  cmd: python model.py
