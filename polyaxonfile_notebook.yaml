@@ -5,5 +5,5 @@ kind: notebook
 
 build:
   image: python:3
-  steps:
+  build_steps:
     - pip3 install jupyter
