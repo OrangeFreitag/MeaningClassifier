@@ -5,7 +5,7 @@ kind: experiment
 build:
   image: gw000/keras
   build_steps:
-    - pip3 install polyaxon-client
+    - pip install polyaxon-client
 
 run:
   cmd: python model.py
