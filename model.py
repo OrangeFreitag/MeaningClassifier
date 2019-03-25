@@ -27,14 +27,14 @@ data_paths = "{}/OLD-DNN".format(data_paths)
 
 print data_paths
 
-train_x = np.loadtxt('/data/shared-task/OLD-DNN/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
-train_y = clearY(np.loadtxt('/data/shared-task/OLD-DNN/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
+train_x = np.loadtxt(data_paths + '/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
+train_y = clearY(np.loadtxt(data_paths + '/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
 
-dev_test_x = np.loadtxt('/data/shared-task/OLD-DNN/vec_test_x.csv', delimiter=',',usecols=range(11)[1:])
-dev_test_y = np.loadtxt('/data/shared-task/OLD-DNN/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
+dev_test_x = np.loadtxt(data_paths + '/vec_test_x.csv', delimiter=',',usecols=range(11)[1:])
+dev_test_y = np.loadtxt(data_paths + '/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
-st2_test_x = np.loadtxt('/data/shared-task/OLD-DNN//vec_st2_test_x.csv', delimiter=',',usecols=range(11)[1:])
-st2_test_y = np.loadtxt('/data/shared-task/OLD-DNN/vec_st2_test_y.csv', delimiter=',',usecols=range(4)[1:])
+st2_test_x = np.loadtxt(data_paths + '/vec_st2_test_x.csv', delimiter=',',usecols=range(11)[1:])
+st2_test_y = np.loadtxt(data_paths + '/vec_st2_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
 seed = 7
 np.random.seed(seed)
