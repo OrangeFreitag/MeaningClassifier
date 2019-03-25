@@ -22,8 +22,10 @@ def clearY(y):
                 clean_input = np.vstack((clean_input, [0]))
     return clean_input
 
-while True:
-        print 'test'
+data_paths = list(get_data_paths().values())[0]
+data_paths = "{}/OLD-DNN".format(data_paths)
+
+print data_paths
 
 train_x = np.loadtxt('/data/shared-task/OLD-DNN/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
 train_y = clearY(np.loadtxt('/data/shared-task/OLD-DNN/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
