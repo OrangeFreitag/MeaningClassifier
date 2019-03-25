@@ -3,7 +3,7 @@ version: 1
 kind: experiment
 
 build:
-  image: tensorflow/tensorflow:1.4.1-py3
+  image: gw000/keras
   build_steps:
     - pip3 install polyaxon-client
 
