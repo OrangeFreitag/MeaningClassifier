@@ -23,7 +23,7 @@ def clearY(y):
     return clean_input
 
 
- experiment = Experiment()
+experiment = Experiment()
 
 train_x = np.loadtxt('/data/shared-task/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
 train_y = clearY(np.loadtxt('/data/shared-task/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
