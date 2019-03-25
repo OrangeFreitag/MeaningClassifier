@@ -130,5 +130,4 @@ dev_y_pred = classifier.predict_classes(scaled_dev_test_x)
 experiment.log_metrics(loss=metrics.history['loss'],
                        val_loss=metrics.history['val_loss'],
                        accuracy=metrics.history['acc'],
-                       val_accuracy=metrics.history['val_acc'],
-                       d_full=evaluate(dev_test_y, dev_y_pred))
+                       val_accuracy=metrics.history['val_acc'])
