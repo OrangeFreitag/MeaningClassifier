@@ -22,6 +22,9 @@ def clearY(y):
                 clean_input = np.vstack((clean_input, [0]))
     return clean_input
 
+While True:
+        print 'debug!'
+
 data_paths = list(get_data_paths().values())[0]
 data_paths = "{}/OLD-DNN".format(data_paths)
 
