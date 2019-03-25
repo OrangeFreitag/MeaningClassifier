@@ -7,3 +7,4 @@ build:
   image: python:3
   build_steps:
     - pip3 install jupyter
+    - pip install pandas
