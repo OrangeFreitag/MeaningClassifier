@@ -97,44 +97,39 @@ def evaluate(true_y, pred_y):
 
 experiment = Experiment()
 
+# 1. Load Data
 train_x = np.loadtxt('/data/shared-task/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
 train_y = clearY(np.loadtxt('/data/shared-task/vec_train_y.csv', delimiter=',',usecols=range(4)[1:]))
-
 dev_test_x = np.loadtxt('/data/shared-task/vec_test_x.csv', delimiter=',',usecols=range(11)[1:])
 dev_test_y = np.loadtxt('/data/shared-task/vec_test_y.csv', delimiter=',',usecols=range(4)[1:])
 
-
-# Polyaxon
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
-experiment.log_data_ref(data=dev_test_x, data_name='dev_test_x')
+experiment.log_data_ref(data=dev_test_x, data_name='dev_test_xD')
 experiment.log_data_ref(data=dev_test_y, data_name='dev_test_y')
 
-
+# 2. Preporcessing
 seed = 7
 np.random.seed(seed)
-
 sc = StandardScaler()
 scaled_train_x = sc.fit_transform(train_x)
 scaled_dev_test_x = sc.transform(dev_test_x)
 
-#Initializing Neural Network
+# 3. Build the NN
 classifier = Sequential()
-
-# Adding the input layer and the first hidden layer
 classifier.add(Dense(64, activation='relu', input_dim=10))
 classifier.add(Dropout(0.2))
 classifier.add(Dense(64, activation='relu'))
 classifier.add(Dropout(0.2))
 classifier.add(Dense(1, activation='sigmoid'))
-
 sgd = SGD(lr=0.02, decay=1e-6, momentum=0.9, nesterov=True)
 classifier.compile(loss='binary_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
+# 4. Traing the Model
 metrics = classifier.fit(scaled_train_x, train_y, batch_size = 150, epochs = 600, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
+
+# 5. D-Evaluation
 dev_y_pred = classifier.predict_classes(scaled_dev_test_x)
-
-
 experiment.log_metrics(d_full=evaluate(dev_test_y, dev_y_pred))
