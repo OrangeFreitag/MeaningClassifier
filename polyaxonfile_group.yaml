@@ -3,9 +3,9 @@ version: 1
 kind: group
 
 hptuning:
-  concurrency: 10
+  concurrency: 30
   random_search:
-    n_experiments: 100
+    n_experiments: 200
     
   matrix:
     lr:
@@ -13,9 +13,9 @@ hptuning:
     dropout:
       values: [0.25, 0.3, 0.35, 0.4, 0.45, 0.5]
     epochs:
-      linspace: 100:1000:20
+      range: 100:1000:20
     batchSize:
-      linspace: 100:340:8
+      range: 100:340:8
 
 build:
   image: gw000/keras
