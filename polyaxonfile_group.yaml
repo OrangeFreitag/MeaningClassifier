@@ -3,9 +3,9 @@ version: 1
 kind: group
 
 hptuning:
-  concurrency: 5
+  concurrency: 10
   random_search:
-    n_experiments: 10
+    n_experiments: 100
     
   matrix:
     lr:
