@@ -10,6 +10,7 @@ from keras.utils.vis_utils import plot_model
 import uuid
 from polyaxon_client.tracking import Experiment, get_log_level, get_data_paths, get_outputs_path
 from polyaxon_client.tracking.contrib.keras import PolyaxonKeras
+import argparse
 
 def clearY(y):
     clean_input = np.array([]).reshape(0, 1)
@@ -22,7 +23,6 @@ def clearY(y):
         else:
                 clean_input = np.vstack((clean_input, [0]))
     return clean_input
-
 
 def evaluate(true_y, pred_y):
     true_classes = []
@@ -94,8 +94,38 @@ def evaluate(true_y, pred_y):
     Df = math.sqrt((Da*D))
     return Df
 
-
 experiment = Experiment()
+
+# 0. Read Args
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument(
+        '--batch_size',
+        default=128,
+        type=int)
+
+    parser.add_argument(
+        '--learning_rate',
+        default=0.001,
+        type=float)
+    
+    parser.add_argument(
+        '--dropout',
+        default=0.25,
+        type=float)
+
+    parser.add_argument(
+        '--num_epochs',
+        default=1,
+        type=int)
+
+args = parser.parse_args()
+arguments = args.__dict__
+batch_size = arguments.pop('batch_size')
+learning_rate = arguments.pop('learning_rate')
+dropout = arguments.pop('dropout')
+num_epochs = arguments.pop('num_epochs')
 
 # 1. Load Data
 train_x = np.loadtxt('/data/shared-task/vec_train_x.csv' ,delimiter=',',usecols=range(11)[1:])
@@ -105,7 +135,7 @@ dev_test_y = np.loadtxt('/data/shared-task/vec_test_y.csv', delimiter=',',usecol
 
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
-experiment.log_data_ref(data=dev_test_x, data_name='dev_test_xD')
+experiment.log_data_ref(data=dev_test_x, data_name='dev_test_x')
 experiment.log_data_ref(data=dev_test_y, data_name='dev_test_y')
 
 # 2. Preporcessing
@@ -122,13 +152,13 @@ classifier.add(Dropout(0.2))
 classifier.add(Dense(64, activation='relu'))
 classifier.add(Dropout(0.2))
 classifier.add(Dense(1, activation='sigmoid'))
-sgd = SGD(lr=0.02, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
 classifier.compile(loss='binary_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
 # 4. Traing the Model
-metrics = classifier.fit(scaled_train_x, train_y, batch_size = 150, epochs = 600, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
+metrics = classifier.fit(scaled_train_x, train_y, batch_size = batch_size, epochs = num_epochs, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
 
 # 5. D-Evaluation
 dev_y_pred = classifier.predict_classes(scaled_dev_test_x)
